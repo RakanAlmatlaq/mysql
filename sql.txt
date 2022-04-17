@@ -1,0 +1,62 @@
+create database store;
+use store;
+create table countries (
+code int primary key,
+name varchar (20) not null,
+continent_name varchar(20) unique
+);
+create table users (
+id int primary key,
+full_name varchar (20),
+email varchar (20) unique,
+gender char (1) check (role='m' or role='f'),
+date_of_birth varchar (15),
+created_at datetime default current_timestamp,
+country_code int,
+foreign key (country_code) references countries(code)
+);
+create table orders (
+id int primary key,
+user_id int,
+status varchar (6) check (role='start' or role='finish'),
+created_at datetime default current_timestamp,
+foreign key (user_id) references users (id)
+);
+create table order_products (
+order_id int primary key,
+product_id int primary key,
+quantity int default 0,
+foreign key (order_id) references orders (id),
+foreign key (product_id) references products (id)
+);
+create table products (
+id int primary key,
+name varchar (10) not null,
+price int default 0,
+status varchar (10) check (role='valid' or role='expired'),
+created_at datetime default current_timestamp
+);
+
+insert into countries value (1,'Ali','Riyadh');
+select * from countries;
+
+insert into countries value (11,'Fatimah','Makkah');
+select * from countries;
+
+insert into users value (2,'Sarah Salah','Sarah@store.com','f',5-6-2000);
+select * from users;
+
+insert into orders value (3,33,'start');
+select * from orders;
+
+insert into order_products value (4,4394254,2);
+select * from order_products;
+
+insert into products values(5,'Milk',15,'valid');
+select * from products;
+
+update countries set name ='Reem' where id=1;
+select * from countries;
+
+delete from products where id='5';
+select * from products;
